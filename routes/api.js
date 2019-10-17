@@ -24,18 +24,6 @@ db.once('open', function (){
   console.log("DB sucess using mongoose!");
 });
 
-//thread schema and model
-const threadSchema = new Schema({
-  board: {type: String, required: true},
-  text: {type: String, required: true},
-  created_on: {type: Date, required: true},
-  bumbed_on: {type: Date, required: true},
-  delete_password: {type: String, required: true},
-  reported: {type: Boolean},
-  replies: [replySchema]
-});
-
-const Thread = mongoose.model('Thread', threadSchema);
 
 //reply schema and model
 const replySchema = new Schema({
@@ -49,6 +37,19 @@ const replySchema = new Schema({
 
 const Reply = mongoose.model('Reply', replySchema);
 
+
+//thread schema and model
+const threadSchema = new Schema({
+  board: {type: String, required: true},
+  text: {type: String, required: true},
+  created_on: {type: Date, required: true},
+  bumbed_on: {type: Date, required: true},
+  delete_password: {type: String, required: true},
+  reported: {type: Boolean},
+  replies: [replySchema]
+});
+
+const Thread = mongoose.model('Thread', threadSchema);
 
 
 module.exports = function (app) {
