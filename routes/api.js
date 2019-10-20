@@ -24,6 +24,7 @@ db.once('open', function (){
   console.log("DB sucess using mongoose!");
 });
 
+const now = new Date();
 
 //reply schema and model
 const replySchema = new Schema({
@@ -54,7 +55,37 @@ const Thread = mongoose.model('Thread', threadSchema);
 
 module.exports = function (app) {
   
-  app.route('/api/threads/:board');
+  app.route('/api/threads/:board')
+  .get(function(req, res){
+    Thread.find(
+      {board: param.board},
+      'text created_on bumbed_on replies ',
+      {sort: 'bumbed_on', limit: 10},
+      function(err, doc){
+        if(err){console.error(err)};
+        console.log(doc);
+      }
+    )
+    })
+    
+    .post(function (req, res) {
+      const newThread = new Thread({
+        board: param.board,
+        text: req.query.text,
+        created_on: now,
+        bumbed_on: now,
+        delete_password: req.query.delete_password
+      })
+
+      newThread.save(function(err, doc){
+        console.log(`saved newThread in`);
+        console.log(doc);
+        res.redirect(302, `./b/${param.board}`)
+      })
+
+
+      
+    });
   
   app.route('/api/replies/:board');
   
