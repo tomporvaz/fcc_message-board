@@ -14,7 +14,7 @@ var server = require('../server');
 chai.use(chaiHttp);
 
 suite('Functional Tests', function() {
-  const testThreadId;
+  const testThreadId = '';
   
   suite('API ROUTING FOR /api/threads/:board', function() {
     
@@ -111,7 +111,7 @@ suite('Functional Tests', function() {
   });
   
   suite('API ROUTING FOR /api/replies/:board', function() {
-    const testReplyId;
+    const testReplyId = '';
     
     suite('POST', function() {
       test('Test POST on /api/replies/:board', function (done) {
