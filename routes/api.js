@@ -58,7 +58,7 @@ module.exports = function (app) {
   app.route('/api/threads/:board')
   .get(function(req, res){
     Thread.find(
-      {board: param.board},
+      {board: req.params.board},
       'text created_on bumbed_on replies ',
       {sort: 'bumbed_on', limit: 10},
       function(err, doc){
@@ -70,7 +70,7 @@ module.exports = function (app) {
     
     .post(function (req, res) {
       const newThread = new Thread({
-        board: param.board,
+        board: req.params.board,
         text: req.query.text,
         created_on: now,
         bumbed_on: now,
@@ -80,7 +80,7 @@ module.exports = function (app) {
       newThread.save(function(err, doc){
         console.log(`saved newThread in`);
         console.log(doc);
-        res.redirect(302, `./b/${param.board}`)
+        res.redirect(302, `./b/${req.params.board}`)
       })
 
 
