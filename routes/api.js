@@ -60,7 +60,7 @@ module.exports = function (app) {
     Thread.find(
       {board: req.params.board},
       'text created_on bumped_on replies ',
-      {sort: 'bumped_on', limit: 10},
+      {sort: {'bumped_on': -1}, limit: 10},
       function(err, doc){
         if(err){console.error(err)};
         console.log(doc);
