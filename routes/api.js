@@ -80,7 +80,7 @@ module.exports = function (app) {
       newThread.save(function(err, doc){
         console.log(`saved newThread in`);
         console.log(doc);
-        res.redirect(302, `.../b/${req.params.board}`)
+        res.redirect(302, `/b/${req.params.board}`)
       })
 
 
