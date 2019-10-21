@@ -44,7 +44,7 @@ const threadSchema = new Schema({
   board: {type: String, required: true},
   text: {type: String, required: true},
   created_on: {type: Date, required: true},
-  bumbed_on: {type: Date, required: true},
+  bumped_on: {type: Date, required: true},
   delete_password: {type: String, required: true},
   reported: {type: Boolean},
   replies: [replySchema]
@@ -59,8 +59,8 @@ module.exports = function (app) {
   .get(function(req, res){
     Thread.find(
       {board: req.params.board},
-      'text created_on bumbed_on replies ',
-      {sort: 'bumbed_on', limit: 10},
+      'text created_on bumped_on replies ',
+      {sort: 'bumped_on', limit: 10},
       function(err, doc){
         if(err){console.error(err)};
         console.log(doc);
@@ -73,14 +73,14 @@ module.exports = function (app) {
         board: req.body.board,
         text: req.body.text,
         created_on: now,
-        bumbed_on: now,
+        bumped_on: now,
         delete_password: req.body.delete_password
       })
 
       newThread.save(function(err, doc){
         console.log(`saved newThread in`);
         console.log(doc);
-        res.redirect(302, `../b/${req.params.board}`)
+        res.redirect(302, `.../b/${req.params.board}`)
       })
 
 
