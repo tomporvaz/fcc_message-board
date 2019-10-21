@@ -70,17 +70,17 @@ module.exports = function (app) {
     
     .post(function (req, res) {
       const newThread = new Thread({
-        board: req.params.board,
-        text: req.query.text,
+        board: req.body.board,
+        text: req.body.text,
         created_on: now,
         bumbed_on: now,
-        delete_password: req.query.delete_password
+        delete_password: req.body.delete_password
       })
 
       newThread.save(function(err, doc){
         console.log(`saved newThread in`);
         console.log(doc);
-        res.redirect(302, `./b/${req.params.board}`)
+        res.redirect(302, `../b/${req.params.board}`)
       })
 
 
