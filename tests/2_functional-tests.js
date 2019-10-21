@@ -23,7 +23,7 @@ suite('Functional Tests', function() {
       test('Test POST /api/threads/:board',  function(done){
         chai.request(server)
         .post(`/api/threads/testForum`)
-        .send({board: testForum, text: 'test suite test posting a thread', delete_password: 'delete'})
+        .send({board: 'testForum', text: 'test suite test posting a thread', delete_password: 'delete'})
         .end(function(err, res){
           assert.equal(res.status, 302);
           done();
