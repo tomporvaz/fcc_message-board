@@ -25,7 +25,8 @@ suite('Functional Tests', function() {
         .post(`/api/threads/testForum`)
         .send({board: 'testForum', text: 'test suite test posting a thread', delete_password: 'delete'})
         .end(function(err, res){
-          assert.equal(res.status, 302);
+          assert.equal(res.status, 200);
+          assert.include(res.redirects[0], 'testForum');
           done();
         })
       });
