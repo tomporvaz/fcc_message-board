@@ -64,10 +64,9 @@ module.exports = function (app) {
       function(err, doc){
         if(err){console.error(err)};
 
-        const newThreadArray = doc.map(reduceThreeRecentReplies(thread));
+        const newThreadArray = doc.map(reduceThreeRecentReplies;
 
-
-        console.log(doc);
+        console.log(newThreadArray);
         res.json(newThreadArray);
       }
     )
@@ -101,7 +100,7 @@ module.exports = function (app) {
       return new Date(b.created_on) - new Date(a.created_on);
     });
   
-    thread.replies = testThread.replies.slice(0, 3);
+    thread.replies = thread.replies.slice(0, 3);
     
     return thread;
     

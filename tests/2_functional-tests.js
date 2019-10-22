@@ -45,7 +45,6 @@ suite('Functional Tests', function() {
           assert.property(res.body[0], 'created_on');
           assert.property(res.body[0], 'bumped_on');
           assert.property(res.body[0], 'replies');
-          assert.property(res.body[0], 'replycount');
           
           //find testThread and record _id to testThreadId
           testThreadId = res.body.find(thread => {
