@@ -83,29 +83,25 @@ suite('Functional Tests', function() {
     suite('PUT', function() {
       test('Test PUT /api/threads/:board to report a thread', function (done) {
         //make new post, find id, and re-save to testThreadId
-        const requester = chai.request(server).keepOpen();
+        const requester = chai.request(server);
         requester.post(`/api/threads/testForum`)
-        .send({board: testForum, text: 'test suite test posting a thread', delete_password: 'delete'})
-        .then( () => {
-          requester.end(function(err, res){
-            //find testThread and record _id to testThreadId
-            testThreadId = res.body.find(thread => {
-              thread.text === 'test suite test posting a thread';
-            })
-            .id;
-          })
-        }
-        )
-        .then( () => {
-          requester.put('/api/threads/testForum')
-          .send({thread_id: testThreadId})
-          .end(function (err, res) {
-            assert.equal(res.status, 200);
-            assert.equal(res.text, 'success');
-          })
-        }
-        )
-        .then(() => requester.close());
+        .send({board: 'testForum', text: 'test suite test posting a thread', delete_password: 'delete'})
+        
+        requester.get(`/api/theads/testForum`)
+        .end(function(err, res){
+          //find testThread and record _id to testThreadId
+          testThreadId = res.body.find(thread => {
+            return (thread.text === 'test suite test posting a thread');
+          })._id;
+        })
+        
+        requester.put('/api/threads/testForum')
+        .send({thread_id: testThreadId})
+        .end(function (err, res) {
+          assert.equal(res.status, 200);
+          assert.equal(res.text, 'success');
+        })
+        
       })
     });
   });
@@ -168,7 +164,7 @@ suite('Functional Tests', function() {
           done();
         })
       })
-
+      
       test('Test DELETE on /api/replies/:board with a vaild delete_password', function(done){
         chai.request(server)
         .delete('/api/replies/testforum')
