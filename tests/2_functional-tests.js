@@ -14,7 +14,7 @@ var server = require('../server');
 chai.use(chaiHttp);
 
 suite('Functional Tests', function() {
-  const testThreadId = '';
+  let testThreadId = '';
   
   suite('API ROUTING FOR /api/threads/:board', function() {
     
@@ -48,9 +48,9 @@ suite('Functional Tests', function() {
           
           //find testThread and record _id to testThreadId
           testThreadId = res.body.find(thread => {
-            thread.text === 'test suite test posting a thread';
+            return (thread.text === 'test suite test posting a thread');
           })
-          .id;
+          ._id;
           
           done();
         })
