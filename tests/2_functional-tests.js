@@ -87,7 +87,7 @@ suite('Functional Tests', function() {
         requester.post(`/api/threads/testForum`)
         .send({board: 'testForum', text: 'test suite test posting a thread', delete_password: 'delete'})
         
-        requester.get(`/api/theads/testForum`)
+        requester.get(`/api/threads/testForum`)
         .end(function(err, res){
           //find testThread and record _id to testThreadId
           testThreadId = res.body.find(thread => {
@@ -100,6 +100,7 @@ suite('Functional Tests', function() {
         .end(function (err, res) {
           assert.equal(res.status, 200);
           assert.equal(res.text, 'success');
+          done();
         })
         
       })
