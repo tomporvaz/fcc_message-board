@@ -63,13 +63,13 @@ module.exports = function (app) {
       {sort: {'bumped_on': -1}, limit: 10},
       function(err, doc){
         if(err){console.error(err)};
-
+        
         const newThreadArray = doc.map(reduceThreeRecentReplies);
-
+        
         console.log(newThreadArray);
         res.json(newThreadArray);
       }
-    )
+      )
     })
     
     .post(function (req, res) {
@@ -80,39 +80,41 @@ module.exports = function (app) {
         bumped_on: now,
         delete_password: req.body.delete_password
       })
-
+      
       newThread.save(function(err, doc){
         console.log(`saved newThread in`);
         console.log(doc);
         res.redirect(302, `/b/${req.params.board}`)
       })
-
-      .put(function (req, res) {
-        Thread.findByIdAndUpdate(req.body.thread_id, {reported: true}, function(err, thread){
-          if(err){console.error(err)};
-          res.send("success");
-        })
-        
+    })
+    
+    .put(function (req, res) {
+      Thread.findByIdAndUpdate(req.body.thread_id, {reported: true}, function(err, thread){
+        if(err){console.error(err)};
+        res.send("success");
       })
-
-
       
     });
-  
-  app.route('/api/replies/:board');
-  
-
-  //function to reduce thread to 3 most recent replies
-  function reduceThreeRecentReplies(thread) {
-    thread.replies.sort(function(a,b){
-      return new Date(b.created_on) - new Date(a.created_on);
-    });
-  
-    thread.replies = thread.replies.slice(0, 3);
     
-    return thread;
     
-  }
-};
-
-
+    
+    
+    
+    app.route('/api/replies/:board');
+    
+    
+    //function to reduce thread to 3 most recent replies
+    function reduceThreeRecentReplies(thread) {
+      thread.replies.sort(function(a,b){
+        return new Date(b.created_on) - new Date(a.created_on);
+      });
+      
+      thread.replies = thread.replies.slice(0, 3);
+      
+      return thread;
+      
+    }
+  };
+  
+  
+  
