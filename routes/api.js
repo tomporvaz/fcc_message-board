@@ -64,7 +64,7 @@ module.exports = function (app) {
       function(err, doc){
         if(err){console.error(err)};
 
-        const newThreadArray = doc.map(reduceThreeRecentReplies;
+        const newThreadArray = doc.map(reduceThreeRecentReplies);
 
         console.log(newThreadArray);
         res.json(newThreadArray);
@@ -74,7 +74,7 @@ module.exports = function (app) {
     
     .post(function (req, res) {
       const newThread = new Thread({
-        board: req.body.board,
+        board: req.params.board,
         text: req.body.text,
         created_on: now,
         bumped_on: now,
