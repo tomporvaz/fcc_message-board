@@ -63,7 +63,12 @@ module.exports = function (app) {
       {sort: {'bumped_on': -1}, limit: 10},
       function(err, doc){
         if(err){console.error(err)};
+
+        const newThreadArray = doc.map(reduceThreeRecentReplies(thread));
+
+
         console.log(doc);
+        res.json(newThreadArray);
       }
     )
     })
@@ -89,4 +94,18 @@ module.exports = function (app) {
   
   app.route('/api/replies/:board');
   
+
+  //function to reduce thread to 3 most recent replies
+  function reduceThreeRecentReplies(thread) {
+    thread.replies.sort(function(a,b){
+      return new Date(b.created_on) - new Date(a.created_on);
+    });
+  
+    thread.replies = testThread.replies.slice(0, 3);
+    
+    return thread;
+    
+  }
 };
+
+
