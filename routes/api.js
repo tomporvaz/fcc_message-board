@@ -87,6 +87,14 @@ module.exports = function (app) {
         res.redirect(302, `/b/${req.params.board}`)
       })
 
+      .put(function (req, res) {
+        Thread.findByIdAndUpdate(req.body.thread_id, {reported: true}, function(err, thread){
+          if(err){console.error(err)};
+          res.send("success");
+        })
+        
+      })
+
 
       
     });
