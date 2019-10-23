@@ -97,11 +97,12 @@ module.exports = function (app) {
     })
     
     .delete(function(req, res){
-      Thread.find({_id: req.body.thread_id}, (err, thread) => {
+      Thread.findById(req.body.thread_id, (err, thread) => {
+        if(err){console.error(err)};
         if(thread.delete_password !== req.body.delete_password){
           res.send("incorrect password")
         } else {
-          Thread.deleteOne({_id: id}, (err, deletedThread) => {
+          Thread.deleteOne({_id: thread._id}, (err, deletedThread) => {
             if(err){console.error(err)};
             res.send('success');
           })
