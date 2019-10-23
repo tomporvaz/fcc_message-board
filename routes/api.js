@@ -94,6 +94,21 @@ module.exports = function (app) {
         res.send("success");
       })
       
+    })
+
+    .delete(function(req, res){
+      Thread.find(req.body.thread_id)
+      .then((thread) => {
+        if(thread.delete_password !== req.body.delete_password){
+          res.send("incorrect password")
+        }
+        return thread._id;
+      })
+      .then(id => {
+        Thread.deleteOne({_id: id})
+        .then(deletedThread => res.send(success));
+      })
+      .catch(err => console.error(err));
     });
     
     
