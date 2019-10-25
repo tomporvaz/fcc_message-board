@@ -24,7 +24,6 @@ db.once('open', function (){
   console.log("DB sucess using mongoose!");
 });
 
-const now = new Date();
 
 //reply schema and model
 const replySchema = new Schema({
@@ -76,8 +75,8 @@ module.exports = function (app) {
       const newThread = new Thread({
         board: req.params.board,
         text: req.body.text,
-        created_on: now,
-        bumped_on: now,
+        created_on: new Date(),
+        bumped_on: new Date(),
         delete_password: req.body.delete_password
       })
       
