@@ -64,7 +64,7 @@ module.exports = function (app) {
       function(err, doc){
         if(err){console.error(err)};
         
-        const newThreadArray = doc.map(countReplies.reduceThreeRecentReplies);
+        const newThreadArray = doc.map(countReduceReplies);
         
         console.log(newThreadArray);
         res.json(newThreadArray);
@@ -119,18 +119,23 @@ module.exports = function (app) {
 
     //function to count replies in thread
     function countReplies(thread) {
-      const replyCount = thread.replies.lenght;
+      const replyCount = thread.replies.length;
       thread.replycount = replyCount;
       return thread;
     }
     
     
     //function to reduce thread to 3 most recent replies
-    function reduceThreeRecentReplies(thread) {
+    function countReduceReplies(thread) {
+      const replyCount = thread.replies.length;
+      thread.replycount = replyCount;
+
       thread.replies.sort(function(a,b){
         return new Date(b.created_on) - new Date(a.created_on);
       });
-      name
+
+      //name
+
       thread.replies = thread.replies.slice(0, 3);
       
       return thread;
