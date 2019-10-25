@@ -126,7 +126,8 @@ module.exports = function (app) {
     
     
     //function to reduce thread to 3 most recent replies
-    function countReduceReplies(thread) {
+    function countReduceReplies(mongoDoc) {
+      const { ...thread } = mongoDoc._doc;
       const replyCount = thread.replies.length;
       thread.replycount = replyCount;
 
