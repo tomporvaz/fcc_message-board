@@ -110,7 +110,7 @@ suite('Functional Tests', function() {
   });
   
   suite('API ROUTING FOR /api/replies/:board', function() {
-    const testReplyId = '';
+    let testReplyId = '';
     
     suite('POST', function() {
       test('Test POST on /api/replies/:board', function (done) {
@@ -138,7 +138,9 @@ suite('Functional Tests', function() {
           assert.property(res.body.replies[0], 'created_on');
           
           //set testReplyId to a real _id
-          testReplyId = res.body.replies.find(reply => {reply.text === `I don't have much to say`})._id;
+          testReplyId = res.body.replies.find(reply => {
+            return (reply.text === `I don't have much to say`)
+          })._id;
           done();
         })
       })

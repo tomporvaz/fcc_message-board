@@ -111,11 +111,20 @@ module.exports = function (app) {
     
     app.route('/api/replies/:board')
     .get(function (req, res) {
-      if(!thread_id){res.send('must provide thread_id in query e.g. /route?thread_id=######')}
+      if(!req.query.thread_id){res.send('must provide thread_id in query e.g. /route?thread_id=######')}
       else{
         Thread.findById(req.query.thread_id, 'text created_on bumped_on replies ', function (err, thread) {
           if(err){console.error(err)};
-          res.json(thread);
+          let threadLessReplyPasswords = thread.replies.map(reply => {
+            return {
+              "_id": reply._id,
+              "text": reply.text,
+              "thread_id": reply.thread_id,
+              "created_on": reply.created_on,
+              "updated_on": reply.updated_on
+            }
+          })
+          res.json(threadLessReplyPasswords);
         })
       }
     })
