@@ -115,6 +115,11 @@ module.exports = function (app) {
       else{
         Thread.findById(req.query.thread_id, 'text created_on bumped_on replies ', function (err, thread) {
           if(err){console.error(err)};
+          
+          thread.replies.sort(function(a,b){
+            return new Date(b.created_on) - new Date(a.created_on);
+          });
+
           thread.replies = thread.replies.map(reply => {
             return {
               "_id": reply._id,
