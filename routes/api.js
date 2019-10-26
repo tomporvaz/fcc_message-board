@@ -115,7 +115,7 @@ module.exports = function (app) {
       else{
         Thread.findById(req.query.thread_id, 'text created_on bumped_on replies ', function (err, thread) {
           if(err){console.error(err)};
-          
+
           thread.replies.sort(function(a,b){
             return new Date(b.created_on) - new Date(a.created_on);
           });
@@ -151,6 +151,22 @@ module.exports = function (app) {
           res.redirect(302, `/b/${req.params.board}`);
         })
       })
+    })
+
+    .put(function(req, res) {
+      Thread.findById(req.body.thread_id, function(err, thread){
+        if(err){console.error(err)};
+        thread.replies.find(reply => reply._id === req.body.reply_id)
+        .reported = true;
+
+        thread.save(function(err, savedThread) {
+          if(err){console.error(err)};
+          res.send('success');
+          
+        })
+        
+      })
+      
     })
     ;
     
