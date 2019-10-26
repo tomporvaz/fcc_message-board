@@ -156,7 +156,7 @@ module.exports = function (app) {
     .put(function(req, res) {
       Thread.findById(req.body.thread_id, function(err, thread){
         if(err){console.error(err)};
-        thread.replies.find(reply => reply._id === req.body.reply_id)
+        thread.replies.find(reply => reply._id == req.body.reply_id)
         .reported = true;
 
         thread.save(function(err, savedThread) {
