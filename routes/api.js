@@ -111,11 +111,15 @@ module.exports = function (app) {
     
     app.route('/api/replies/:board')
     .get(function (req, res) {
-      Thread.findById(req.body.thread_id, 'text created_on bumped_on replies ', function (err, thread) {
-        res.json(thread);
-      })
+      if(!thread_id){res.send('must provide thread_id in query e.g. /route?thread_id=######')}
+      else{
+        Thread.findById(req.query.thread_id, 'text created_on bumped_on replies ', function (err, thread) {
+          if(err){console.error(err)};
+          res.json(thread);
+        })
+      }
     })
-
+    
     .post(function (req, res) {
       const reply = new Reply({
         text: req.body.text,
@@ -124,28 +128,29 @@ module.exports = function (app) {
         updated_on: new Date(),
         delete_password: req.body.delete_password
       })
-
+      
       Thread.findById(req.body.thread_id, function(err, thread) {
         thread.replies.push(reply);
         thread.bumped_on = new Date();
         thread.save(function(err, savedThread) {
           if(err){console.error(err)};
+          res.redirect(302, `/b/${req.params.board}`);
         })
       })
     })
     ;
-  
+    
     
     //function to reduce thread to 3 most recent replies
     function countReduceReplies(mongoDoc) {
       const { ...thread } = mongoDoc._doc;
       const replyCount = thread.replies.length;
       thread.replycount = replyCount;
-
+      
       thread.replies.sort(function(a,b){
         return new Date(b.created_on) - new Date(a.created_on);
       });
-
+      
       thread.replies = thread.replies.slice(0, 3);
       
       return thread;
