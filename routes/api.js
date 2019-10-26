@@ -61,11 +61,8 @@ module.exports = function (app) {
       'text created_on bumped_on replies ',
       {sort: {'bumped_on': -1}, limit: 10},
       function(err, doc){
-        if(err){console.error(err)};
-        
+        if(err){console.error(err)}; 
         const newThreadArray = doc.map(countReduceReplies);
-        
-        console.log(newThreadArray);
         res.json(newThreadArray);
       }
       )
@@ -81,9 +78,8 @@ module.exports = function (app) {
       })
       
       newThread.save(function(err, doc){
-        console.log(`saved newThread in`);
-        console.log(doc);
-        res.redirect(302, `/b/${req.params.board}`)
+        if(err){console.error(err)};
+        res.redirect(302, `/b/${req.params.board}`);
       })
     })
     

@@ -118,7 +118,9 @@ suite('Functional Tests', function() {
         .post('/api/replies/testForum')
         .send({text: `I don't have much to say`, delete_password: `delete`, thread_id: testThreadId})
         .end(function (err, res) {
-          assert.equal(res.status, 302);
+          assert.equal(res.status, 200);
+          assert.include(res.redirects[0], 'testForum');
+          done();
         })
       })
     });
