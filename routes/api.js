@@ -115,7 +115,7 @@ module.exports = function (app) {
       else{
         Thread.findById(req.query.thread_id, 'text created_on bumped_on replies ', function (err, thread) {
           if(err){console.error(err)};
-          let threadLessReplyPasswords = thread.replies.map(reply => {
+          thread.replies = thread.replies.map(reply => {
             return {
               "_id": reply._id,
               "text": reply.text,
@@ -124,7 +124,7 @@ module.exports = function (app) {
               "updated_on": reply.updated_on
             }
           })
-          res.json(threadLessReplyPasswords);
+          res.json(thread);
         })
       }
     })
