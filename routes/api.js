@@ -113,16 +113,32 @@ module.exports = function (app) {
     
     
     
-    app.route('/api/replies/:board');
+    app.route('/api/replies/:board')
+    .get(function (req, res) {
+      Thread.findById(req.body.thread_id, 'text created_on bumped_on replies ', function (err, thread) {
+        res.json(thread);
+      })
+    })
 
+    .post(function (req, res) {
+      const reply = new Reply({
+        text: req.body.text,
+        thread_id: req.body.thread_id,
+        created_on: new Date(),
+        updated_on: new Date(),
+        delete_password: req.body.delete_password
+      })
 
-    //function to count replies in thread
-    function countReplies(thread) {
-      const replyCount = thread.replies.length;
-      thread.replycount = replyCount;
-      return thread;
-    }
-    
+      Thread.findById(req.body.thread_id, function(err, thread) {
+        thread.replies.push(reply);
+        thread.bumped_on = new Date();
+        thread.save(function(err, savedThread) {
+          if(err){console.error(err)};
+        })
+      })
+    })
+    ;
+  
     
     //function to reduce thread to 3 most recent replies
     function countReduceReplies(mongoDoc) {
@@ -133,8 +149,6 @@ module.exports = function (app) {
       thread.replies.sort(function(a,b){
         return new Date(b.created_on) - new Date(a.created_on);
       });
-
-      //name
 
       thread.replies = thread.replies.slice(0, 3);
       
