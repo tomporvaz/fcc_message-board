@@ -45,7 +45,9 @@ suite('Functional Tests', function() {
           assert.property(res.body[0], 'created_on');
           assert.property(res.body[0], 'bumped_on');
           assert.property(res.body[0], 'replies');
-          
+          assert.notProperty(res.body[0], 'reported');
+          assert.notProperty(res.body[0], 'delete_password');
+
           //find testThread and record _id to testThreadId
           testThreadId = res.body.find(thread => {
             return (thread.text === 'test suite test posting a thread');
@@ -136,6 +138,8 @@ suite('Functional Tests', function() {
           assert.property(res.body.replies[0], '_id');
           assert.property(res.body.replies[0], 'text');
           assert.property(res.body.replies[0], 'created_on');
+          assert.notProperty(res.body.replies[0], 'reported');
+          assert.notProperty(res.body.replies[0], 'delete_password');
           
           //set testReplyId to a real _id
           testReplyId = res.body.replies.find(reply => {

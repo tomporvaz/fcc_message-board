@@ -171,8 +171,8 @@ module.exports = function (app) {
 
     .delete(function(req, res) {
       Thread.findById(req.body.thread_id, function(err, thread){
-        if(err){consol.error(err)};
-        let targetReply = thread.replies.find(reply => reply._id == req.body.reply.id);
+        if(err){console.error(err)};
+        let targetReply = thread.replies.find(reply => reply._id == req.body.reply_id);
         if(req.body.delete_password !== targetReply.delete_password){
           res.send('incorrect password')
         } else {
