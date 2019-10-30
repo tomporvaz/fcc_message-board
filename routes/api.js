@@ -148,7 +148,7 @@ module.exports = function (app) {
         thread.bumped_on = new Date();
         thread.save(function(err, savedThread) {
           if(err){console.error(err)};
-          res.redirect(302, `/b/${req.params.board}`);
+          res.redirect(302, `/b/${req.params.board}/${req.body.thread_id}`);
         })
       })
     })
