@@ -168,6 +168,20 @@ module.exports = function (app) {
       })
       
     })
+
+    .delete(function(req, res) {
+      Thread.findById(req.body.thread_id, function(err, thread){
+        if(err){consol.error(err)};
+        let targetReply = thread.replies.find(reply => reply._id == req.body.reply.id);
+        if(req.body.delete_password !== targetReply.delete_password){
+          res.send('incorrect password')
+        } else {
+          targetReply.text = '[deleted]';
+          thread.save(function(err, doc){if(err){console.error(err)}});
+          res.send('success');
+        }
+      })
+    })
     ;
     
     
